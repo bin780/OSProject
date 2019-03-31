@@ -32,15 +32,17 @@ void input()
 	                                           
 	int i;
 	printf("\nenter the number of students\n");
-	scanf("%d",n);   
+	scanf("%d",&n);   
 	for(i=0;i<n;++i)                                                             //function to take custom input
 	{
 		printf("\nenter the student id of student %d : ",i+1);
-		scanf("%d",s[i].student_id);
+		scanf("%d",&s[i].student_id);
 		printf("\nenter the arrival time of student %d :",i+1);
-		scanf("%d",s[i].arrivalTime);
+		scanf("%d",&s[i].arrivalTime);
 		printf("\nenter the food taking time of student %d :",i+1);
-		scanf("%d",s[i].FoodTime);
+		scanf("%d",&s[i].FoodTime);
+		s[i].backUp=s[i].FoodTime;
+		time+=s[i].FoodTime;
 	}
 }
 struct student init()
@@ -60,9 +62,17 @@ struct student init()
 	
 } 
 int main()
-{
-	
-	init();
+{    int ch;
+	printf("1.custom input \n\n2.deafult values\n");
+	scanf("%d",&ch);
+	switch(ch)
+	{case 1: input();
+	       break;
+	case 2: init();
+	        break;
+   default:printf("\nworng input\n");
+	}
+	//init();
 	sort();
 	totalTime+=s[0].arrivalTime;
 	
@@ -97,7 +107,7 @@ void calculate()
 	totalWT=0;
 	totalTAT =0;
 	int i;
-	for(i=0;i<4;i++)
+	for(i=0;i<n;i++)
 	{
 	       s[i].turnAroundTime=s[i].completionTime-s[i].arrivalTime;
 	       s[i].waitingTime=s[i].turnAroundTime-s[i].backUp;
@@ -165,6 +175,11 @@ int findBiggest(int t)
 		{
 			if(s[i].FoodTime>s[max].FoodTime)
 			    max=i;
+			else
+			if(s[i].FoodTime==s[max].FoodTime)
+			    {
+				if(s[i].student_id<s[max].student_id)
+			            max=i;}
 		}
 	}
 	return max;
