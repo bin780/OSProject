@@ -1,5 +1,6 @@
 #include<unistd.h>
 #include<stdio.h>
+#include<stdlib.h>
 
 struct student                       // structure for details of each student
 {
@@ -32,27 +33,32 @@ int n=3;                           //total no of student by default 3
  
 int main()
 {    int ch;
-	printf("1.custom input \n\n2.deafult values\n");
+    printf("press :\n");
+	printf("1 :-> to enter  manually(for test cases) \n\n2 :-> to take default values(given in question)\n");
 	scanf("%d",&ch);
 	switch(ch)
 	{case 1: input();
+	         display(0);
 	       break;
 	case 2: init();
+	         display(0);
 	        break;
-   default:printf("\nworng input\n");
+   default:printf("\nwrong input\n");
+            exit(1);
 	}
 	
 	sort();
 	totalTime+=s[0].arrivalTime;
 	
 	time+=s[0].arrivalTime;
+	printf("\n------------------------------Food Taking Order------------------------------------------------------\n");
 	findCompletionTime();
 	calculate();
-	display();	
+	display(1);	
 }
 
 void init()
-{   printf("first here");
+{   system("cls"); 
     int i,j;
     s[0].student_id=2132;  
     s[1].student_id=2102;                                                      //function to initialise with default values
@@ -69,7 +75,7 @@ void init()
 
 void input()
 {
-	                                           
+	  system("cls");                                         
 	int i;
 	printf("\nenter the number of students\n");
 	scanf("%d",&n);   
@@ -84,22 +90,30 @@ void input()
 		s[i].backUp=s[i].FoodTime;
 		time+=s[i].FoodTime;
 	}
+	system("cls");
 }
 
-void display()
+void display(int f)
 {
 	int i;
+	printf("\n------------------------------Values-------------------------------------------------------------");
 	for(i=0;i<n;++i)
-	{
-		printf("\nstudent_id %d",s[i].student_id);
-		printf("\nstudent foodtime %d",s[i].backUp);                                             //function to display values
-		printf("\nstudent arrival time %d",s[i].arrivalTime);
-		printf("\nstudent completion time %d",s[i].completionTime);
-		printf("\nstudent waiting time %d",s[i].waitingTime);
-		printf("\nstudnt turn around time %d\n\n",s[i].turnAroundTime);
+	{   
+		printf("\n\nstudent_id: %d",s[i].student_id);
+		printf("\nstudent foodtime: %d ms",s[i].backUp);                                             //function to display values
+		printf("\nstudent arrival time: %d ms" ,s[i].arrivalTime);
+		if(f==0)
+		continue;
+		printf("\nstudent completion time: %d ms",s[i].completionTime);
+		printf("\nstudent waiting time: %d ms",s[i].waitingTime);
+		printf("\nstudnt turn around time: %d ms\n\n",s[i].turnAroundTime);
+		
 	}
-	printf("\naverage total TAT %.3f ms",totalTAT/(float)n);
-    printf("\naverage waiting time %.3f ms",totalWT/(float)n);
+	if(f==1)
+	{
+	printf("\naverage total TAT: %.3f ms",totalTAT/(float)n);
+    printf("\naverage waiting time: %.3f ms",totalWT/(float)n);
+    }
 	
 }
 
@@ -144,22 +158,23 @@ void sort()
 
 void findCompletionTime()
 {  
-
-    //printf("here");
+    
+    
 	int index;
 	int flag=0;
 	int i =s[0].arrivalTime;
-	int t=totalTime;
+
 	
 	while(1)
 	{
 		index = findBiggest(i);
 		if(index!=-1)
 	     {
-		 printf("\nstudent taking food at time %d is : student_id %d\n",i,s[index].student_id);
+		 printf("\nAt time t = %d :=> student %d is taking food\n",i,s[index].student_id);
+		 //printf("%d:",s[index].student_id);
 	     s[index].FoodTime-=1;
 	     totalTime+=1;
-	     //t+=1;
+	     
 	     i++;}
 	     else
 	      {
@@ -167,9 +182,9 @@ void findCompletionTime()
 	      }
 	     
 	     if(s[index].FoodTime==0 && index!=-1)
-	     {  printf("%d\n",index);
+	     {  
 	     	s[index].completionTime=i;
-	     	printf("\nstudent %d has completed taking his food at time %d\n",s[index].student_id,i);
+	     	printf("\n==>student %d has completed taking his food\n",s[index].student_id);
 	     	
 		 }
 		 if(totalTime == time)
