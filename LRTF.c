@@ -15,7 +15,7 @@ struct student                       // structure for details of each student
 
 int findBiggest(int);
 void sort();
-void display();
+void display(int i);
 void calculate();                                  //function declaration
 void findCompletionTime();
 void input();
@@ -31,7 +31,7 @@ int n=3;                           //total no of student by default 3
 
 
  
-int main()
+int main()                                                                              //driver function
 {    int ch;
     printf("press :\n");
 	printf("1 :-> to enter  manually(for test cases) \n\n2 :-> to take default values(given in question)\n");
@@ -43,7 +43,7 @@ int main()
 	case 2: init();
 	         display(0);
 	        break;
-   default:printf("\nwrong input\n");
+   default:printf("\nwrong input\n");                       
             exit(1);
 	}
 	
@@ -124,7 +124,7 @@ void calculate()
 	int i;
 	for(i=0;i<n;i++)
 	{
-	       s[i].turnAroundTime=s[i].completionTime-s[i].arrivalTime;
+	       s[i].turnAroundTime=s[i].completionTime-s[i].arrivalTime;                           //function to calculate the values
 	       s[i].waitingTime=s[i].turnAroundTime-s[i].backUp;
 		totalWT+=s[i].waitingTime;
 		totalTAT+=s[i].turnAroundTime;
@@ -140,7 +140,7 @@ void sort()
 	for(i=0;i<n-1;++i)
 	{
 		for(j=0;j<n-i-1;j++)
-		{   
+		{                                                                       //function for sorting
 			if(s[j].arrivalTime>s[j+1].arrivalTime)
 			{
 				temp=s[j+1];
@@ -171,14 +171,13 @@ void findCompletionTime()
 		if(index!=-1)
 	     {
 		 printf("\nAt time t = %d :=> student %d is taking food\n",i,s[index].student_id);
-		 //printf("%d:",s[index].student_id);
 	     s[index].FoodTime-=1;
 	     totalTime+=1;
 	     
 	     i++;}
 	     else
 	      {
-		  i++;
+		  i++;                                                                                        //for LRTF scheduling
 	      }
 	     
 	     if(s[index].FoodTime==0 && index!=-1)
@@ -197,7 +196,7 @@ int findBiggest(int t)
 {  int max=0,i;
 	for(i=0;i<n;i++)
 	{
-		if(s[i].arrivalTime<=t &&(s[i].FoodTime!=0))
+		if(s[i].arrivalTime<=t &&(s[i].FoodTime!=0))                                                 //function for finding the biggest student
 		{
 			if(s[i].FoodTime>s[max].FoodTime)
 			    max=i;
